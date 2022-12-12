@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.core.validators import MinLengthValidator
+from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import models
 
 from app_user.enums import UserGenderEnum, UserRoleEnum
@@ -81,7 +81,11 @@ class UserProfileModel(SaveMixin, models.Model):
     age = models.PositiveIntegerField(
         verbose_name="Age",
         blank=True,
-        null=True
+        null=True,
+        validators=[
+            MinValueValidator(14, message="You must be at least 14 years of age"),
+        ],
+
     )
 
     gender = models.CharField(

@@ -8,8 +8,11 @@ class UserAppConfig(AppConfig):
     def ready(self):
         import app_user.signals
         from django.db.models.signals import post_migrate
-        from app_user.signals import create_groups
-        post_migrate.connect(create_groups, sender=self)
+
+        from app_user.signals import generate_permission_groups
+        post_migrate.connect(generate_permission_groups, sender=self)
+
+
 
 
 

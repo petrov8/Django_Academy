@@ -22,5 +22,6 @@ urlpatterns = [
     path("tutor/", include("app_lecturer.urls")),
     path("course/", include("app_course.urls")),
     path("payment/", include("app_payment.urls")),
+    path("error", include("app_errors.urls")),
     path("", include("app_index.urls")),
 ]

@@ -4,20 +4,24 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
 from app_course.models import CourseModel
+from app_lecturer.models import LecturerModel
 from app_user.enums import UserRoleEnum
 from app_user.models import UserProfileModel
 from support.add_funcs.user_support import UserSupport
-from support.perm_groups import GroupsMgmt
+from support.perm_groups import PermGroupsMgmt
 
 BaseModel = get_user_model()
 
+def generate_permission_groups(sender, **kwargs):
+    models = [LecturerModel, CourseModel, BaseModel, UserProfileModel]
+    perms = PermGroupsMgmt()
+    perms.create_groups(UserRoleEnum)
 
-def create_groups(sender, **kwargs):
-    groups = GroupsMgmt()
-    groups.create_groups(UserRoleEnum)
-    groups.get_model_permissions(CourseModel)
-    groups.assign_perms_to_groups()
+    for next_model in models:
+        perms.get_model_permissions(next_model)
 
+    perms2 = PermGroupsMgmt()
+    print(perms2.perm_groups)
 
 @receiver(pre_save, sender=UserProfileModel)
 def is_user_profile_completed(sender, instance, **kwargs):
@@ -29,6 +33,7 @@ def is_user_profile_completed(sender, instance, **kwargs):
 
 @receiver(post_save, sender=BaseModel)
 def create_user_profile(sender, instance, created, **kwargs):
+
     if created:
         return UserProfileModel.objects.create(user=instance)
 

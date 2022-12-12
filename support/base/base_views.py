@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.shortcuts import redirect
 
 from support.decors.permissions import PermissionsDecors
 
@@ -13,7 +14,7 @@ class BaseEditCourseView(BaseAuthView):
     def has_permission(self, **kwargs):
         perms = super().has_permission()
         if perms and not kwargs["allowed"]:
-            perms = False
+            return redirect("permission denied")
         return perms
 
 
@@ -23,6 +24,6 @@ class BaseEditUserView(BaseAuthView):
     def has_permission(self, **kwargs):
         perms = super().has_permission()
         if perms and not kwargs["allowed"]:
-            perms = False
+            return redirect("permission denied")
         return perms
 

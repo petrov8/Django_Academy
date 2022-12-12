@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 
 from app_course.models import CourseModel
 from app_user.enums import UserRoleEnum
+from support.add_funcs.course_support import CourseSupport
 
 
 class PermissionsDecors:
@@ -50,7 +51,22 @@ class PermissionsDecors:
                     user.role == UserRoleEnum.admin.value or
                     user.role == UserRoleEnum.master.value
             ):
-                return redirect("index")
+                return redirect("permission denied")
+            return func(*args, **kwargs)
+        return wrapper
+
+    @staticmethod
+    def can_edit_course_func_view(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            user = args[0].user
+            course = CourseSupport.return_course_object(kwargs["pk"])
+            if not (
+                    int(user.id) == int(course.creator_id) or
+                    user.role == UserRoleEnum.admin.value or
+                    user.role == UserRoleEnum.master.value
+            ):
+                return redirect("permission denied")
             return func(*args, **kwargs)
         return wrapper
 

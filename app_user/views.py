@@ -5,9 +5,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView
 
-from app_lecturer.forms import LecturerEditForm
 from app_user.forms import UserRegisterForm, UserEditForm
 from app_user.models import UserProfileModel
+from support.add_funcs.common_support import CommonSupport
 from support.add_funcs.user_support import UserSupport
 from support.base.base_views import BaseEditUserView, BaseAuthView
 from support.decors.permissions import PermissionsDecors
@@ -40,7 +40,10 @@ class LogoutUserView(LogoutView):
 
 
 class ProfileUserView(BaseAuthView, DetailView):
-    permission_required = []
+    permission_required = [
+        "app_user.view_userprofilemodel",
+        "app_user.change_userprofilemodel"
+    ]
     template_name = "users/profile.html"
     model = UserProfileModel
 
@@ -51,39 +54,38 @@ class ProfileUserView(BaseAuthView, DetailView):
         return context
 
 
-@login_required
-@PermissionsDecors.can_edit_profile_func_view
-def edit_user_view(request, pk):
-    user_form = UserEditForm(
-        request.POST or None, instance=UserSupport.return_user_profile(request.user))
-    lecturer_form = return_lecturer_form(request)
-    if request.method == "POST":
-        if lecturer_form and lecturer_form.is_valid():
-            lecturer_form.save()
-        if user_form.is_valid():
-            user_form.save()
-        return redirect("profile user", pk)
-    return render(request, "users/edit-user.html", {
+class DeleteUserView(BaseEditUserView, DeleteView):
+    permission_required = [
+        "app_user.delete_userbasemodel"
+    ]
+    model = UserModel
+    template_name = "users/delete-user.html"
+    success_url = reverse_lazy("index")
+
+
+def populate_user_edit_form(request, template, user_form, lecturer_form):
+    return render(request, template, {
         "user_form": user_form,
         "lecturer_form": lecturer_form
     })
 
 
-def return_lecturer_form(request):
-    if UserSupport.check_if_lecturer(request.user):
-        return LecturerEditForm(
-            request.POST or None, instance=UserSupport.return_lecturer_profile(request.user)
-        )
-    return None
-
-
-class DeleteUserView(BaseEditUserView, DeleteView):
-    permission_required = []
-
-    model = UserModel
-    template_name = "users/delete-user.html"
-    success_url = reverse_lazy("index")
-
+@login_required
+@PermissionsDecors.can_edit_profile_func_view
+def edit_user_view(request, pk):
+    user_form = UserEditForm(
+        request.POST or None, instance=UserSupport.return_user_profile(request.user))
+    lecturer_form = UserSupport.return_lecturer_form(request)
+    if request.method == "POST":
+        validity = CommonSupport.check_forms_validity(user_form, lecturer_form)
+        if validity:
+            if lecturer_form:
+                lecturer_form.save()
+            user_form.save()
+            return redirect("profile user", pk)
+        elif not validity:
+            return populate_user_edit_form(request, "users/edit-user.html", user_form, lecturer_form)
+    return populate_user_edit_form(request, "users/edit-user.html", user_form, lecturer_form)
 
 
 

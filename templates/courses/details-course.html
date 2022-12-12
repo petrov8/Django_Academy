@@ -55,6 +55,7 @@
                     {% if show_buttons_flag %}
 
                         <a href="{% url 'edit course' pk=object.pk %}" class="edit-button">Edit</a>
+
                         <a href="{% url 'delete course' pk=object.pk %}" class="delete-button">Delete</a>
 
                     {% endif %}

@@ -1,12 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView
 
 from app_course.forms import CourseCreateForm, CourseEditForm, CourseDeleteForm
 from app_course.models import CourseModel
+from support.add_funcs.common_support import CommonSupport
 from support.add_funcs.course_support import CourseSupport
 from support.base.base_views import BaseAuthView, BaseEditCourseView
+from support.decors.permissions import PermissionsDecors
 
 
 class PublishCourseView(BaseAuthView, CreateView):
@@ -36,12 +38,23 @@ class DetailsCourseView(BaseAuthView, DetailView):
         return context
 
 
-class EditCourseView(BaseEditCourseView, UpdateView):
-    permission_required = ["app_course.change_coursemodel"]
-    template_name = "courses/edit-course.html"
-    model = CourseModel
-    form_class = CourseEditForm
-    success_url = reverse_lazy("catalogue")
+def populate_course_view(request, form, pk):
+    return render(request, "courses/edit-course.html", {
+        "form": form,
+        "pk": pk
+    })
+
+@login_required
+@PermissionsDecors.can_edit_course_func_view
+def edit_course_view(request, pk):
+    course = CourseSupport.return_course_object(pk)
+    course_form = CourseEditForm(request.POST or None, instance=course)
+    if request.method == "POST":
+        if CommonSupport.check_forms_validity(course_form):
+            course_form.save()
+            return redirect("catalogue")
+        return populate_course_view(request, course_form, pk)
+    return populate_course_view(request, course_form, pk)
 
 
 class DeleteCourseView(BaseEditCourseView, DeleteView):
@@ -80,26 +93,3 @@ def remove_course_view(request, **kwargs):
         course.participants -= 1
         course.save()
         return redirect("my courses")
-
-
-
-# Done via payment view
-# class TakeCourseView(BaseAuthView, DetailView):
-#     permission_required = ["app_course.view_coursemodel"]
-#     model = CourseModel
-#     template_name = "courses/take-course.html"
-#
-#     def post(self, request, *args,  **kwargs):
-#         self.object = self.get_object()
-#         user = self.request.user
-#         if UserSupport.check_if_student(user):
-#             course = self.object
-#             course.students.add(user)
-#             user.coursemodel_set.add(course)
-#             course.participants += 1
-#             course.save()
-#         return render(request, "courses/my-courses.html", {
-#             "courses": user.coursemodel_set.all()
-#         })
-
-

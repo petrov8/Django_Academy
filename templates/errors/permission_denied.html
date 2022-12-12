@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block main_content %}
+
+    <!-- profile details section -->
+    <section id="car-details">
+        <h2> Ooops: You don't have access to this resource. </h2>
+        <div class="info-section">
+            <div class="info-section">
+
+                <img class="perm_denied" src="/static/images/permission_denied.gif" alt='profile-image'/>
+
+                <div class="buttons">
+                    <br><br>
+                    <a href="{% url 'index'%}" class="edit-button"> Back to Home </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+
+
+"../../static/images/permission_denied.gif"

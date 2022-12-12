@@ -1,3 +1,4 @@
+from app_lecturer.forms import LecturerEditForm
 from app_lecturer.models import LecturerModel
 from app_user.enums import UserRoleEnum
 from app_user.models import UserProfileModel
@@ -32,6 +33,15 @@ class UserSupport:
             raise IndexError(
                 "Lecturer could not be found. Was this profile role recently updated ?"
                 "If so, please log out and log back in again for changed to take place")
+
+    @staticmethod
+    def return_lecturer_form(request):
+        if UserSupport.check_if_lecturer(request.user):
+            return LecturerEditForm(
+                request.POST or None, instance=UserSupport.return_lecturer_profile(request.user)
+            )
+        return None
+
 
     @staticmethod
     def check_if_fields_are_updated(obj, exceptions: list):

@@ -41,6 +41,12 @@
     height: 40%;
 }
 
+.perm-denied-header {
+    position: absolute;
+    padding: 25px;
+    height: 40%;
+}
+
 .car-header>h1 {
     color: #E2E8EA;
     margin-top: 5px;
@@ -86,6 +92,13 @@
     box-shadow: 0 0 20px -10px rgba(0, 0, 0, 0.5);
 }
 
+.perm_denied {
+    width: auto; /*or your image's width*/
+    height: auto; /*or your image's height*/
+    margin: 0;
+    padding: 0;
+    position: center;
+}
 
 .buttons {
     height: 10%;

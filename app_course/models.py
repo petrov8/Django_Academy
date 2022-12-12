@@ -7,7 +7,7 @@ from app_lecturer.enums import ScriptingLangsEnum
 from app_lecturer.models import LecturerModel
 from app_user.models import UserProfileModel
 from support.mixins.mixins import SaveMixin
-from support.validators.names import check_if_letters_only
+from support.validators.names import check_if_letters_and_digits_only
 
 UserModel = get_user_model()
 
@@ -29,13 +29,14 @@ class CourseModel(SaveMixin, models.Model):
         blank=False,
         null=False,
         max_length=MAX_DEFAULT_FIELD_LEN,
-        validators=[check_if_letters_only]
+        validators=[check_if_letters_and_digits_only]
     )
 
     description = models.TextField(
         verbose_name="Description",
         blank=False,
         null=False,
+        validators=[check_if_letters_and_digits_only]
     )
 
     technology = models.CharField(
