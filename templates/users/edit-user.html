@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block main_content %}
+
+    <!-- edit profile form -->
+    <section id="register-page" class="content auth">
+        <form id="register" method="POST" action="{% url 'edit user' pk=user.pk %}">
+            <div class="container">
+                <h1>Edit Profile</h1>
+
+                    {% csrf_token %}
+
+                    {{ user_form.as_p }}
+
+                    {% if lecturer_form %}
+                        {{ lecturer_form.as_p }}
+                    {% endif %}
+
+                <input class="btn" type="submit" value="Edit Profile">
+            </div>
+        </form>
+    </section>
+
+{% endblock %}

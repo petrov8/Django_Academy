@@ -1,0 +1,10 @@
+
+{% load complete_profile %}
+
+        <p class="description">Experience: {{ lecturer.years_of_experience }}</p>
+
+        <p class="description">Favourite Language: {{ lecturer.fav_language }}</p>
+
+        <p class="description"> About me:  {{ lecturer.about_me }}</p>
+
+        <p class="description">Member since: {% format_date lecturer.created %}</p>

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+
+    {% if not criterion %}
+
+        <p class="no-articles"> Forgot to enter criteria ? </p>
+
+    {% elif object_list %}
+
+        <p class="no-articles"> '{{ criterion }}' search results</p>
+
+
+        {% for course in object_list %}
+
+            {% include 'partials/course-card.html' %}
+
+        {% endfor %}
+
+    {% else %}
+
+        <!-- Display paragraph: If there are no courses yet-->
+        <p class="no-articles"> No course titles match '{{ criterion }}'</p>
+
+    {% endif %}
+
+{% endblock %}

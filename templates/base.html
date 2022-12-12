@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+{% load complete_profile %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style/style.css">
+    <title>Django Academy</title>
+</head>
+
+<body>
+<div id="box">
+    <header>
+
+        {% complete_profile_reminder %}
+
+
+        {% include "partials/nav.html" %}
+
+    </header>
+
+
+        {% block main_content %}
+
+
+        {% endblock %}
+
+    <!-- footer -->
+    <footer>
+        &copy;A.P. 2022. All rights reserved.
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+
+{% if pk and not status  %}
+
+    <center>
+        <div style="color: #b4b6ee; align-content: center;" >
+            <h3>
+                Your User Profile is missing important details. Complete it
+                <a href="{% url 'edit user' pk=pk %}"> - here</a>
+            </h3>
+        </div>
+    </center>
+
+{% endif %}

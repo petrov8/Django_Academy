@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+
+  <section id="create-page" class="auth">
+
+      <div class="container">
+          {% if not  added %}
+
+                <h1> Sign up for {{ course.title }} course ? </h1>
+                  <!-- Take new course Form -->
+                <form id='delete' method="POST" action="{% url 'take course' pk=object.pk %}">
+
+                    {% csrf_token %}
+
+                    {{ form }}
+
+                <!-- Confirm Button -->
+                <input class="btn submit" type="submit" value="Yes">
+
+                </form>
+
+          {% else %}
+
+              <h1> You have already signed up for the course: <br>
+                  {{ course.title }} for {{ course.competency_level }} users </h1><br>
+              <center>
+                    <a href="{% url 'my courses' %}" class="details-btn">My Courses</a>
+              </center>
+
+          {% endif %}
+      </div>
+    <!-- End Delete Profile Form -->
+  </section>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+
+    {% if object_list %}
+
+        <!-- Display div "car" with information about every car (if any)-->
+
+        {% for course in object_list %}
+
+            {% include 'partials/course-card.html' %}
+
+        {% endfor %}
+
+    {% else %}
+
+        <!-- Display paragraph: If there are no cars yet-->
+        <p class="no-articles">No Courses</p>
+
+    {% endif %}
+
+{% endblock %}

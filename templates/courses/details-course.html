@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load is_student %}
+{% load edit_btns_mgmt %}
+
+
+{% block main_content %}
+
+    <!-- details section -->
+    <section id="car-details">
+        <h1>Course Details</h1>
+        <div class="info-section">
+            <div class="car-header">
+                <!-- course image -->
+                <img class="car-img" src="{{ object.image_url}}" alt='course image' width="254" height="254"/>
+                <!-- type and model -->
+                <h1>{{ object.title }}</h1>
+
+                <textarea id="course description" name="description" rows="6" cols="10">
+
+                    {{ object.description }}
+
+                </textarea>
+
+                <!-- car model -->
+                <p><span class="description">Description: {{ object.description }}</span></p>
+                <!-- car year -->
+                <p><span class="description">Development: {{ object.dev_type }}</span></p>
+                <!-- car price -->
+                <p><span class="description">Price: {{ object.price|floatformat:2 }}</span></p>
+
+            </div>
+
+            <!-- Edit/Delete buttons -->
+            <div class="buttons">
+
+            {% is_student user as is_student_flag %}
+
+                {% if is_student_flag %}
+
+                    {% if not course_added  %}
+
+                        <a href="{% url 'payment' pk=object.pk %}" class="edit-button" methods="POST">Participate</a>
+
+                    {% else %}
+
+                        <a href="{% url 'opt-out from course' pk=object.pk %}"
+                           class="edit-button" methods="POST">Opt out</a>
+
+                    {% endif %}
+
+                {% endif %}
+
+                {% show_buttons user object as show_buttons_flag %}
+
+                    {% if show_buttons_flag %}
+
+                        <a href="{% url 'edit course' pk=object.pk %}" class="edit-button">Edit</a>
+                        <a href="{% url 'delete course' pk=object.pk %}" class="delete-button">Delete</a>
+
+                    {% endif %}
+
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

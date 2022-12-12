@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+
+    {% if courses %}
+
+        <center><h1 style="color: #b4b6ee">My Courses</h1></center>
+
+        <!-- Display div "car" with information about every car (if any)-->
+
+        {% for course in courses %}
+
+            <section id="catalogue">
+
+
+                    <!-- third car-->
+                    <div class="car-card">
+                        <div class="image-wrap">
+                            <!-- car image -->
+                            <img src="{{ course.image_url }}"
+                                 alt="course image">
+                        </div>
+                        <!-- car title -->
+                        <h3>{{ course.title }}</h3>
+                        <!-- car type -->
+                        <h1>Script: {{ course.technology }}</h1>
+                        <!-- car model -->
+                        <h1>Development: {{ course.dev_type }}</h1>
+                        <h1>Price: €{{ course.price }}</h1>
+                        <div class="details-buttons">
+                            <!-- car details button -->
+                            <a href="{% url 'details course' pk=course.pk %}" class="details-btn">Full Details</a>
+                        </div>
+                    </div>
+            </section>
+
+        {% endfor %}
+
+    {% else %}
+
+        <!-- Display paragraph: If there are no cars yet-->
+        <p class="no-articles">You don't have any courses yet</p>
+
+    {% endif %}
+
+{% endblock %}

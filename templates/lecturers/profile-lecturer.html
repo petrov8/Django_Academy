@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load complete_profile %}
+
+{% block main_content %}
+
+    <!-- profile details section -->
+    <section id="car-details">
+        <h1>Profile Details</h1>
+        <div class="info-section">
+            <div class="car-header">
+
+                {% if object.profile_picture %}
+
+                    <!-- if the user has a profile image -->
+                    <img class="car-img" src="{{ object.profile_picture }}" alt='profile-image'/>
+
+                {% else %}
+                    <!-- default profile image (if the user does NOT have any)-->
+                    <img class="car-img" src="/static/images/default-profile.png" alt='profile-image'/>
+
+
+                {% endif %}
+
+                {% if object.first_name and object.last_name %}
+
+                    <!-- user full name (if any) -->
+                    <h1>{{ object.first_name }} {{ object.last_name }}</h1>
+
+                {% endif %}
+                <!-- user email -->
+                <p class="description">Email: {{ user.email }}</p>
+                <!-- user age -->
+                <p class="description">Age: {{ object.age }}</p>
+                <!-- total price of all cars -->
+                <p class="description">Profile type: {{ object.category }}</p>
+                <!-- joined -->
+                <p class="description">Member since: {% format_date object.created %}</p>
+                <!-- Edit/Delete buttons -->
+                <div class="buttons">
+                    <br><br>
+                    <a href="#" class="edit-button">Courses</a>
+                    <a href="{% url 'edit user' pk=user.pk %}" class="edit-button">Edit</a>
+                    <a href="{% url 'delete user' pk=user.pk %}" class="delete-button">Delete</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
