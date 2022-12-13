@@ -13,7 +13,7 @@ class NewUserViewTestCase(BaseTestUser):
 
         self.assertIsNotNone(test_user.pk)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/new-user.html")
+        self.assertTemplateUsed(response, "users/new-user_2.html")
         test_user.full_clean()
 
     def test_register__new_user__profile_creation_success(self):
