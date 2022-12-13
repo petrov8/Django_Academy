@@ -9,14 +9,12 @@ from app_user.forms import UserRegisterForm, UserEditForm
 from app_user.models import UserProfileModel
 from support.add_funcs.common_support import CommonSupport
 from support.add_funcs.user_support import UserSupport
-from support.base.base_views import BaseEditUserView, BaseAuthView
+from support.base.base_views import BaseAuthView
 from support.decors.permissions import PermissionsDecors
 from support.mixins.mixins import GetSuccessUrlMixin
+from support.mixins.auth_mixins import HasAccessToUserDetailsMixin
 
 UserModel = get_user_model()
-
-no_access_msg = "You cant"
-
 
 class NewUserView(CreateView):
     template_name = "users/new-user.html"
@@ -39,7 +37,7 @@ class LogoutUserView(LogoutView):
     next_page = reverse_lazy("index")
 
 
-class ProfileUserView(BaseAuthView, DetailView):
+class ProfileUserView(BaseAuthView, HasAccessToUserDetailsMixin, DetailView):
     permission_required = [
         "app_user.view_userprofilemodel",
         "app_user.change_userprofilemodel"
@@ -54,7 +52,7 @@ class ProfileUserView(BaseAuthView, DetailView):
         return context
 
 
-class DeleteUserView(BaseEditUserView, DeleteView):
+class DeleteUserView(BaseAuthView, HasAccessToUserDetailsMixin, DeleteView):
     permission_required = [
         "app_user.delete_userbasemodel"
     ]

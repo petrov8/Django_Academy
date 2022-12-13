@@ -7,8 +7,9 @@ from app_course.forms import CourseCreateForm, CourseEditForm, CourseDeleteForm
 from app_course.models import CourseModel
 from support.add_funcs.common_support import CommonSupport
 from support.add_funcs.course_support import CourseSupport
-from support.base.base_views import BaseAuthView, BaseEditCourseView
+from support.base.base_views import BaseAuthView
 from support.decors.permissions import PermissionsDecors
+from support.mixins.auth_mixins import CanPerformCourseEditMixin
 
 
 class PublishCourseView(BaseAuthView, CreateView):
@@ -57,7 +58,7 @@ def edit_course_view(request, pk):
     return populate_course_view(request, course_form, pk)
 
 
-class DeleteCourseView(BaseEditCourseView, DeleteView):
+class DeleteCourseView(BaseAuthView, CanPerformCourseEditMixin, DeleteView):
     permission_required = ["app_course.delete_coursemodel"]
     model = CourseModel
     form_class = CourseDeleteForm
@@ -93,3 +94,4 @@ def remove_course_view(request, **kwargs):
         course.participants -= 1
         course.save()
         return redirect("my courses")
+

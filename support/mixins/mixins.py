@@ -30,3 +30,5 @@ class DisableFieldsMixin:
                 field.disabled = True
             else:
                 field.widget.attrs["readonly"] = "disable"
+
+
