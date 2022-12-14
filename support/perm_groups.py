@@ -79,7 +79,7 @@ class PermGroupsMgmt:
             # delete -> only master users can perform full 'delete' on all models (other users included)
                 # students can delete their accounts/profiles
                 # lecturers can delete their accounts/profiles and courses
-                # admins can delete their accounts/profiles and courses (admins cannot delete master users)
+                # admins can delete their accounts/profiles and courses (admins cannot delete accounts --> master users)
 
             elif perm.codename == f"delete_{value}model":
                 if perm.codename in ["delete_userbasemodel"]:
