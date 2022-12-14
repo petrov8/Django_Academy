@@ -1,5 +1,7 @@
 from functools import wraps
 
+from django.http import Http404
+
 from app_course.models import CourseModel
 from app_user.enums import UserRoleEnum
 
@@ -10,8 +12,8 @@ class CourseSupport:
     def return_course_object(course_id):
         try:
             return CourseModel.objects.filter(id=course_id)[0]
-        except Exception:
-            raise IndexError("Could not find couse.")
+        except IndexError:
+            raise Http404
 
     @staticmethod
     def get_courses(func):

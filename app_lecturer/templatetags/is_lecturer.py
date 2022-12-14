@@ -6,4 +6,8 @@ from support.add_funcs.user_support import UserSupport
 def is_lecturer(user):
     return UserSupport.check_if_lecturer(user)
 
+@register.simple_tag(name="is_master")
+def is_master(user):
+    return UserSupport.check_if_master(user)
+
 

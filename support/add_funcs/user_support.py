@@ -18,7 +18,6 @@ class UserSupport:
 
     @staticmethod
     def return_lecturer_profile(request):
-        a = 5
         try:
             return LecturerModel.objects.filter(user_id=request.user.id)[0]
         except IndexError:
@@ -30,15 +29,17 @@ class UserSupport:
 
     @staticmethod
     def check_if_lecturer(user):
-        if user.role == UserRoleEnum.lecturer.value:
-            return True
-        return False
+        return True if user.role == UserRoleEnum.lecturer.value else False
+
+
+    @staticmethod
+    def check_if_master(user):
+        return True if user.role == UserRoleEnum.master.value else False
+
 
     @staticmethod
     def check_if_student(user):
-        if user.role == UserRoleEnum.student.value:
-            return True
-        return False
+        return True if user.role == UserRoleEnum.student.value else False
 
 
     @staticmethod
@@ -53,8 +54,6 @@ class UserSupport:
     @staticmethod
     def check_if_fields_are_updated(obj, exceptions: list):
         for field in obj._meta.get_fields():
-            if field.name not in exceptions and not getattr(obj, field.name):
-                return False
-        return True
+           return True if (field.name not in exceptions and not getattr(obj, field.name)) else False
 
 

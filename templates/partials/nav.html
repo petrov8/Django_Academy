@@ -20,7 +20,8 @@
                 <a href="{% url 'profile user' user.pk %}">Profile</a>
 
                 {% is_lecturer user as is_lecturer_flag %}
-                    {% if "app_course.add_coursemodel" in perms and is_lecturer_flag %}
+                {% is_master user as is_master_flag %}
+                    {% if "app_course.add_coursemodel" in perms and is_lecturer_flag or is_master_flag  %}
 
                         <a href="{% url 'new course' %}">Publish course</a>
 
