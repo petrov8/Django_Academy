@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView
@@ -81,7 +82,10 @@ class MyCoursesView(BaseAuthView, ListView):
     @CourseSupport.get_courses
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context["courses"] = kwargs["courses"]
+        paginator = Paginator(kwargs["courses"], 4)
+        page = self.request.GET.get("page")
+        courses = paginator.get_page(page)
+        context["my_courses"] = courses
         return context
 
 

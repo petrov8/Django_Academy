@@ -27,7 +27,7 @@ def cc_payment_view(request, pk):
             form.save()
             add_student_to_course(course, user)
             return render(request, "courses/my-courses.html", {
-                "courses": user.coursemodel_set.all()
+                "my_courses": user.coursemodel_set.all()
             })
     return render(request, "payments/credit_card.html", {
         "form": form,
