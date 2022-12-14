@@ -1,7 +1,9 @@
 from django.urls import path, include
 
 import app_user.views as resource
+from app_user.exceptions import handler404
 
+# handler404=handler404
 
 urlpatterns = [
     path("new/", resource.NewUserView.as_view(), name="new user"),

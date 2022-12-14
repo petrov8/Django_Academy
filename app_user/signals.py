@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, user_logged_in
 from django.contrib.auth.models import Group
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
@@ -20,8 +20,6 @@ def generate_permission_groups(sender, **kwargs):
     for next_model in models:
         perms.get_model_permissions(next_model)
 
-    perms2 = PermGroupsMgmt()
-    print(perms2.perm_groups)
 
 @receiver(pre_save, sender=UserProfileModel)
 def is_user_profile_completed(sender, instance, **kwargs):
@@ -39,7 +37,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=BaseModel)
-def user(sender: BaseModel, instance: BaseModel, **kwargs) -> None:
+def assign_user_to_group(sender: BaseModel, instance: BaseModel, **kwargs) -> None:
 
     """
     Every user can be assigned to a single group (conditional on user.role)
@@ -54,6 +52,15 @@ def user(sender: BaseModel, instance: BaseModel, **kwargs) -> None:
     group = Group.objects.get(name=instance.role)
     if group not in instance.groups.all():
         group.user_set.add(instance)
+
+@receiver(user_logged_in, sender=BaseModel)
+def admin_team_mgmt(user, **kwargs) -> None:
+    if user.is_staff and user.role == UserRoleEnum.student.value:
+        if user.is_superuser:
+            user.role = "Master"
+        else:
+            user.role = "Admin"
+        user.save()
 
 
 

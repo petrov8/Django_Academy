@@ -108,7 +108,7 @@ class EditProfileView(BaseTestUser):
         self.assertEqual(self.profile_details["profile_picture"], profiler)
         self.test_user.clean()
 
-    # TODO: edit form validation errors
+    # TODO: edit form validation exceptions
     # def test_edit_profile_pic__existing_user__with_incorrect_url(self):
     #     self.profile_details["last_name"] = "11111"
     #

@@ -25,8 +25,8 @@ class UserRegisterForm(BaseAuthForm):
 
 
 class UserLoginForm(BaseGenericForm):
-    email = forms.EmailField(
-        widget=forms.PasswordInput(
+    email = forms.CharField(
+        widget=forms.EmailInput(
             attrs={"placeholder": "Email"}
         )
     )
@@ -36,7 +36,6 @@ class UserLoginForm(BaseGenericForm):
             attrs={"placeholder": "Password"}
         )
     )
-
 
 class UserEditForm(BaseModelForm):
     class Meta:

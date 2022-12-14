@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block main_content %}
+
+    <!-- profile details section -->
+    <section id="car-details">
+        <h2> Ooops: Django is rendering. </h2>
+        <div class="info-section">
+            <div class="info-section">
+
+                <img class="perm_denied" src="{% static 'images/403.jpg' %}" alt='profile-image'/>
+
+                <div class="buttons">
+                    <br><br>
+                    <a href="{% url 'index'%}" class="edit-button"> Back to Home </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+

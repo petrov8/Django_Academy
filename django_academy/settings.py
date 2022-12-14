@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 from django.urls import reverse_lazy
@@ -32,7 +32,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "app_lecturer",
     "app_course",
     "app_payment",
-    "app_errors",
+
 ]
 
 MIDDLEWARE = [
@@ -69,8 +69,7 @@ ROOT_URLCONF = "django_academy.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates']
-        ,
+        "DIRS": [os.path.join( BASE_DIR, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -146,4 +145,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "app_user.UserBaseModel"
 
+
 # LOGIN_REDIRECT_URL = reverse_lazy("catalogue")
+
+# LOGIN_URL = reverse_lazy("login user")

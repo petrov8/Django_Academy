@@ -1,5 +1,6 @@
 from functools import wraps
 
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from support.add_funcs.common_support import CommonSupport
 from support.add_funcs.course_support import CourseSupport
@@ -13,7 +14,7 @@ class PermissionsDecors:
         def wrapper(*args, **kwargs):
             user = args[0].user
             if not CommonSupport.perform_perms_comparison(user, kwargs["pk"]):
-                return redirect("permission denied")
+                raise PermissionDenied
             return func(*args, **kwargs)
         return wrapper
 
@@ -25,7 +26,7 @@ class PermissionsDecors:
             user = args[0].user
             course = CourseSupport.return_course_object(kwargs["pk"])
             if not CommonSupport.perform_perms_comparison(user, course.creator_id):
-                return redirect("permission denied")
+                raise PermissionDenied
             return func(*args, **kwargs)
         return wrapper
 

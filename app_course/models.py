@@ -6,13 +6,13 @@ from app_course.enums import DevTypeEnums, CompetencyEnums
 from app_lecturer.enums import ScriptingLangsEnum
 from app_lecturer.models import LecturerModel
 from app_user.models import UserProfileModel
-from support.mixins.mixins import SaveMixin
+from support.mixins.mixins import SaveMixin, AuditTrailMixin
 from support.validators.names import check_if_letters_and_digits_only
 
 UserModel = get_user_model()
 
 
-class CourseModel(SaveMixin, models.Model):
+class CourseModel(SaveMixin, AuditTrailMixin,  models.Model):
     MAX_DEFAULT_FIELD_LEN = 30
     MIN_RATING = 0
     MIN_PRICE = 0
@@ -83,18 +83,6 @@ class CourseModel(SaveMixin, models.Model):
 
     )
 
-    created = models.DateField(
-        verbose_name="Published",
-        auto_created=True,
-        null=True,
-    )
-
-    modified = models.DateField(
-        verbose_name="Last Revision",
-        auto_now=True,
-        null=True,
-    )
-
     creator = models.ForeignKey(
         LecturerModel,
         primary_key=False,
@@ -105,6 +93,9 @@ class CourseModel(SaveMixin, models.Model):
         UserModel,
         primary_key=False,
     )
+
+    def __str__(self):
+        return f"{self.title}"
 
 
 

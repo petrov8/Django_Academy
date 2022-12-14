@@ -6,7 +6,7 @@ from django.db import models
 
 from app_user.enums import UserGenderEnum, UserRoleEnum
 from app_user.user_manager import CustomBaseUserManager
-from support.mixins.mixins import SaveMixin
+from support.mixins.mixins import SaveMixin, AuditTrailMixin
 from support.validators.names import check_if_letters_only
 
 MAX_DEFAULT_FIELD_LEN = 30
@@ -48,7 +48,7 @@ class UserBaseModel(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-class UserProfileModel(SaveMixin, models.Model):
+class UserProfileModel(SaveMixin, AuditTrailMixin,  models.Model):
     class Meta:
         ordering = ("-created", )
         db_table = "2. UserProfile"
@@ -99,14 +99,6 @@ class UserProfileModel(SaveMixin, models.Model):
         verbose_name="Profile Picture",
         blank=True,
         null=True
-    )
-
-    created = models.DateTimeField(
-        editable=False,
-    )
-
-    modified = models.DateTimeField(
-        null=True,
     )
 
     user = models.OneToOneField(

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block main_content %}
+
+    <!-- profile details section -->
+    <section id="car-details">
+        <h2> Ooops: Django is rendering. </h2>
+        <div class="info-section">
+            <div class="info-section">
+
+                "Lecturer could not be found. Was this profile role recently updated ?"
+                "If so, please log out and log back in again for changed to take place"
+
+                <div class="buttons">
+                    <br><br>
+                    <a href="{% url 'index'%}" class="edit-button"> Back to Home </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+

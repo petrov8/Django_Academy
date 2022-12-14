@@ -1,5 +1,21 @@
 from django.forms import Textarea
 from django.utils import timezone
+from django.db import models
+
+class AuditTrailMixin(models.Model):
+    created = models.DateTimeField(
+        verbose_name="Created",
+        auto_created=True,
+        null=True,
+    )
+    modified = models.DateTimeField(
+        verbose_name="Last Revision",
+        auto_now=True,
+        null=True,
+    )
+
+    class Meta:
+        abstract = True
 
 
 class SaveMixin:

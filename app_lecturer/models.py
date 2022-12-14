@@ -2,10 +2,10 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from app_lecturer.enums import ScriptingLangsEnum
-from support.mixins.mixins import SaveMixin
+from support.mixins.mixins import SaveMixin, AuditTrailMixin
 
 
-class LecturerModel(SaveMixin, models.Model):
+class LecturerModel(SaveMixin,AuditTrailMixin,  models.Model):
     MAX_DEFAULT_FIELD_LEN = 30
 
     class Meta:
@@ -29,10 +29,6 @@ class LecturerModel(SaveMixin, models.Model):
     about_me = models.TextField(
         verbose_name="About"
     )
-
-    created = models.DateTimeField(auto_created=True)
-
-    modified = models.DateTimeField(auto_now=True)
 
     user = models.OneToOneField(
         get_user_model(),

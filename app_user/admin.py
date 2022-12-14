@@ -2,8 +2,7 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.contrib.auth import admin as auth_admin, get_user_model
 
-from app_lecturer.forms import LecturerRegisterForm, LecturerEditForm
-from app_lecturer.models import LecturerModel
+from app_user.enums import UserRoleEnum
 from app_user.forms import UserEditForm, UserRegisterForm
 from app_user.models import UserProfileModel
 
@@ -30,7 +29,7 @@ class UserAdmin(auth_admin.UserAdmin):
         "role",
         "last_login",
     ]
-    list_filter = ("email", )
+    list_filter = ("email", "role", "is_staff", "is_superuser" )
     search_fields = ()
     ordering = ("email", )
     filter_horizontal = ()
@@ -74,32 +73,35 @@ class UserAdmin(auth_admin.UserAdmin):
 
 @admin.register(UserProfileModel)
 class ProfileAdmin(ModelAdmin):
-    list_display = ["email", "full_name"]
+    list_display = ["email", "role", "full_name", "age", "gender", "is_completed", "subscriptions", "avg_spent"]
+    list_filter = ["age", "gender", "is_completed"]
     form = UserEditForm
     add_form = UserEditForm
 
+    def role(self, obj):
+        return obj.user.role
+
     def email(self, obj):
-        a = 5
         return obj.user.email
 
     def full_name(self, obj):
-        print(obj.user.userprofilemodel.first_name)
         return f"{obj.user.userprofilemodel.first_name} {obj.user.userprofilemodel.last_name}"
 
+    def subscriptions(self, obj):
+        if obj.user.role == UserRoleEnum.student.value:
+            return len(obj.user.coursemodel_set.all())
+        return "not student"
 
-@admin.register(LecturerModel)
-class ProfileAdmin(ModelAdmin):
-    list_display = ["email", "full_name"]
-    form = LecturerEditForm
-    add_form = LecturerRegisterForm
+    def avg_spent(self, obj):
+        if obj.user.role == UserRoleEnum.student.value:
+            avg = 0
+            if obj.user.coursemodel_set.all():
+                avg = sum([course.price for course in obj.user.coursemodel_set.all()])
+            return avg
+        return "not student"
 
-    def email(self, obj):
-        a = 5
-        return obj.user.email
 
-    def full_name(self, obj):
-        print(obj.user.userprofilemodel.first_name)
-        return f"{obj.user.userprofilemodel.first_name} {obj.user.userprofilemodel.last_name}"
+
 
 
 

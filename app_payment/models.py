@@ -5,10 +5,11 @@ from creditcards.models import CardNumberField, CardExpiryField, SecurityCodeFie
 
 from app_course.models import CourseModel
 from app_user.models import UserBaseModel
+from support.mixins.mixins import AuditTrailMixin
 from support.validators import names, payment
 
 
-class PaymentModel(models.Model):
+class PaymentModel(AuditTrailMixin,  models.Model):
     MIN_DEFAULT_FIELD_LEN = 2
     MAX_DEFAULT_FIELD_LEN = 30
 

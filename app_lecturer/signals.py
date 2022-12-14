@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.signals import user_logged_in
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
 from app_lecturer.models import LecturerModel
@@ -31,8 +31,7 @@ def check_if_lecturer_profile(user, **kwargs):
     if UserSupport.check_if_lecturer(user):
         try:
             _lecturer_profile = LecturerModel.objects.filter(user_id=user.id)[0]
-            return
-        except:
-            # do not use ObjectDoesNotExist exception. Does not execute next line!
+        except IndexError as ex:
+            # TODO - fix with exact error type. do not use ObjectDoesNotExist exception. Does not execute next line!
             return LecturerModel.objects.create(user=user)
 

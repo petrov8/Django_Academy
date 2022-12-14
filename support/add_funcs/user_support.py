@@ -1,3 +1,5 @@
+from django.http import Http404
+
 from app_lecturer.forms import LecturerEditForm
 from app_lecturer.models import LecturerModel
 from app_user.enums import UserRoleEnum
@@ -23,16 +25,15 @@ class UserSupport:
         try:
             return UserProfileModel.objects.filter(user_id=user.id)[0]
         except Exception:
-            raise IndexError("User could not be found.")
+            raise Http404
 
     @staticmethod
     def return_lecturer_profile(user):
         try:
             return LecturerModel.objects.filter(user_id=user.id)[0]
-        except Exception:
-            raise IndexError(
-                "Lecturer could not be found. Was this profile role recently updated ?"
-                "If so, please log out and log back in again for changed to take place")
+        except IndexError:
+            return Http404
+
 
     @staticmethod
     def return_lecturer_form(request):
