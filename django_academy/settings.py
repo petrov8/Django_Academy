@@ -149,3 +149,14 @@ AUTH_USER_MODEL = "app_user.UserBaseModel"
 # LOGIN_REDIRECT_URL = reverse_lazy("catalogue")
 
 # LOGIN_URL = reverse_lazy("login user")
+
+from django.contrib.messages import constants as messages
+
+
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+ }

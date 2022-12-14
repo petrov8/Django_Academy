@@ -4,9 +4,7 @@
 
     {% if object_list %}
 
-        <!-- Display div "car" with information about every car (if any)-->
-
-        {% for course in object_list %}
+        {% for course in courses %}
 
             {% include 'partials/course-card.html' %}
 
@@ -16,6 +14,24 @@
 
         <!-- Display paragraph: If there are no cars yet-->
         <p class="no-articles">No Courses</p>
+
+    {% endif %}
+
+
+
+    {% if courses.has_previous %}
+
+        <a href="?page=1">&laquo; First</a>
+        <a href="?page={{ courses.previous_page_number }}">Previous</a>
+
+    {% endif %}
+
+        Page {{ courses.number }} of {{ courses.paginator.num_pages }}
+
+    {% if courses.has_next %}
+
+        <a href="?page= {{ courses.next_page_number }}">Next</a>
+        <a href="?page={{ courses.paginator.num_pages }}">Last &raquo;</a>
 
     {% endif %}
 

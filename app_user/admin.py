@@ -29,7 +29,7 @@ class UserAdmin(auth_admin.UserAdmin):
         "role",
         "last_login",
     ]
-    list_filter = ("email", "role", "is_staff", "is_superuser" )
+    list_filter = ("email", "role", "is_staff", "is_superuser")
     search_fields = ()
     ordering = ("email", )
     filter_horizontal = ()

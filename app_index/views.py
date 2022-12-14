@@ -6,6 +6,8 @@ from app_course.models import CourseModel
 from support.add_funcs.course_support import CourseSupport
 
 
+from django.core.paginator import Paginator
+
 class HomePage(TemplateView):
     template_name = "base.html"
 
@@ -16,8 +18,10 @@ class CataloguePage(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context["courses"] = \
-            CourseModel.objects.all()
+        paginator = Paginator(CourseModel.objects.all(), 4)
+        page = self.request.GET.get("page")
+        courses = paginator.get_page(page)
+        context["courses"] = courses
         return context
 
 

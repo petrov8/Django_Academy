@@ -11,17 +11,32 @@
     </div>
 {% endif %}
 
+{% include "partials/messages.html" %}
+
+
+<script>
+    window.setTimeout(function() {
+        $("#msg").fadeTo(400, 0).slideUp(400, function(){
+         $(this).remove();
+      });
+    }, 2000);
+
+</script>
+
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/style/style.css">
     <title>Django Academy</title>
+
+
 </head>
 
 <body>
 <div id="box">
     <header>
+
 
         {% complete_profile_reminder %}
 
