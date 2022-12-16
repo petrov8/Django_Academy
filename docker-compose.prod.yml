@@ -1,0 +1,59 @@
+#defining services we want to run in our container
+
+version: "3.4"
+
+services:
+  app:
+    image: gelen4o/django_academy_main_app
+    build: .
+    container_name: academy_app
+    command: gunicorn django_academy.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./static:/tmp/django_academy/static
+    ports:
+      - 8000:8000
+    env_file:
+      - ./django_academy/envs/.env.prod
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    restart: always
+    container_name: academy_db
+    ports:
+      - "6432:5432"
+    environment:
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=01.django_academy
+      - PGDATA= /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+
+  nginx:
+    image: nginx
+    ports:
+      - 81:80
+      - 443:443
+    volumes:
+      - ./static:/home/app/web/static
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+    depends_on:
+      - app
+
+
+
+
+
+
+
+
+
+
+
+
+
