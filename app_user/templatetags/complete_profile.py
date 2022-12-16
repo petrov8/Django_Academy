@@ -8,6 +8,7 @@ def complete_profile_reminder(context):
         completion_status = set()
         user = context.request.user
 
+        completion_status.add(user.userprofilemodel.is_completed)
         try:
             completion_status.add(user.lecturermodel.is_completed)
         except ObjectDoesNotExist:

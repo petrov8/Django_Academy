@@ -54,6 +54,8 @@ class UserSupport:
     @staticmethod
     def check_if_fields_are_updated(obj, exceptions: list):
         for field in obj._meta.get_fields():
-           return True if (field.name not in exceptions and not getattr(obj, field.name)) else False
+            if field.name not in exceptions and not getattr(obj, field.name):
+                return False
+        return True
 
 

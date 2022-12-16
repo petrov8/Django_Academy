@@ -122,6 +122,9 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.static/admin
+.static/bootstrap_datepicker_plus
+.postgresql/
 env/
 venv/
 ENV/
