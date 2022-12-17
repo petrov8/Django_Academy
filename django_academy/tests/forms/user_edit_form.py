@@ -73,7 +73,7 @@ class UserProfileForm(BaseTestForm):
         self.assertFalse(form.is_valid())
 
     def test_age__edit_user__valid_input(self):
-        self.form_data["age"] = "1"
+        self.form_data["age"] = "14"
 
         form = super().edit_user_form(self.form_data)
         self.assertTrue(form.is_valid())

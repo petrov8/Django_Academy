@@ -8,7 +8,7 @@ class UserPermissionsGroupSignal(BaseTestUser):
         self.credentials["email"] = "student@abv.bg"
         student = super().create_test_user()
 
-        response = self.client.get(reverse("profile user", kwargs={"pk": student.id}))
+        response = self.client.get(reverse("profile user", kwsargs={"pk": student.id}))
 
         self.test_user.role = "Admin"
         self.test_user.save()
