@@ -4,7 +4,7 @@ version: "3.4"
 
 services:
   app:
-    build: ./django_academy
+    build: .
     container_name: academy_app
     command: gunicorn django_academy.wsgi:application --bind 0.0.0.0:8000
     volumes:
