@@ -1,3 +1,5 @@
-app deployed at www.django-academy.tk
+app deployed at http://django-academy.tk/
+
+
 
 
