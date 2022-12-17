@@ -3,7 +3,7 @@
 version: "3.4"
 
 services:
-  web:
+  app:
     image: app
     build: .
     container_name: academy_app
@@ -44,7 +44,7 @@ services:
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro
     depends_on:
-      - web
+      - app
 
 
 
