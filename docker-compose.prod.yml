@@ -3,13 +3,13 @@
 version: "3.4"
 
 services:
-  app:
-    image: gelen4o/django_academy_main_app
+  web:
+    image: app
     build: .
     container_name: academy_app
     command: gunicorn django_academy.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - ./staticfiles:/tmp/django_academy/static
+      - ./static:/tmp/django_academy/static/
     ports:
       - 8000:8000
     env_file:
@@ -22,7 +22,7 @@ services:
     restart: always
     container_name: academy_db
     ports:
-      - "6432:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=123456
       - POSTGRES_USER=postgres
@@ -33,17 +33,18 @@ services:
 
   nginx:
     image: nginx
+    container_name: academy_server
     ports:
-      - 81:80
+      - 80:80
       - 443:443
     volumes:
-      - ./staticfiles:/home/app/web/static
+      - ./static:/home/app/web/static/
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/logs:/var/log/nginx
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro
     depends_on:
-      - app
+      - web
 
 
 
