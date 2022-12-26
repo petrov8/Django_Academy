@@ -222,10 +222,14 @@ Functionalities:
 
 Features:
 
-    - Deployed at http://django-academy.tk with Docker and Amazon EC2. 
-    - Seach Bar - users can search for available courses by name. 
+    - Deployed at http://django-academy.tk via Docker and Amazon EC2. 
+    - Seach Bar - users can search for courses by name.  
     - Student have to pay before signing-up for a course (to be extended with PayPal or Wise Sandbox API).
+    - Extended Django User model -> Basic User + User Profile + Lecturer's Profile (if applicable). 
+        - User Profile & Lectuter's profile automatically set-up via "Signals". 
+    - 'Complete Profile' reminders.  
     - Django Admin:
+        - Automated group permissionls set-up. 
         - Admins can see total number of courses, students and average course price per lecturer. 
         - Admins can see total number of courses a student has signed-up for an average amount spent.
         - Other small improvements. 
