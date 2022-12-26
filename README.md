@@ -30,7 +30,7 @@
 <h3 align="center">Careers Website</h3>
 
   <p align="center">
-    Your fast track to a new career !
+    Your one stop for programming courses !
     <br />
   </p>
 </div>
@@ -127,12 +127,12 @@ Ensure your machine has 'Python3' and 'pip' installed:
    python manage.py makemigrations 
    ```
 
-2. Set-up database:    
+2. Run Migrations:    
    ```sh
    python manage.py migrate
    ```
 
-3. Upload permission groups in 'Django Admin' :    
+3. Re-run migrations to init group permissions in 'Django Admin' :    
    ```sh
    python manage.py migrate
    ```
